@@ -8,7 +8,7 @@
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -19,10 +19,10 @@
 }
 
 :root {
-    --primary-glow: #ff4d8d;
-    --secondary-glow: #9d4edd;
-    --accent-gold: #ffd6a5;
-    --glass-bg: rgba(255, 255, 255, 0.08);
+    --primary-pink: #ff4d8d;
+    --accent-purple: #9d4edd;
+    --warm-gold: #ffd6a5;
+    --glass-card: rgba(255, 255, 255, 0.08);
     --glass-border: rgba(255, 255, 255, 0.22);
 }
 
@@ -32,7 +32,7 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Outfit', sans-serif;
-    background: #0d0614;
+    background: #0d0417;
     color: #ffffff;
     overflow-x: hidden;
     overflow-y: auto;
@@ -41,7 +41,7 @@ body {
     user-select: none;
 }
 
-/* Ambient Moving Aurora Mesh Background */
+/* Ambient Moving Aurora Mesh Glow */
 .aurora-bg {
     position: fixed;
     top: 0;
@@ -51,21 +51,21 @@ body {
     z-index: 0;
     pointer-events: none;
     background: 
-        radial-gradient(circle at 15% 20%, rgba(255, 77, 141, 0.35) 0%, transparent 40%),
-        radial-gradient(circle at 85% 75%, rgba(157, 78, 221, 0.4) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(234, 88, 145, 0.25) 0%, transparent 50%),
-        linear-gradient(135deg, #090212 0%, #1a0826 40%, #2f0f37 100%);
-    filter: blur(40px);
-    animation: auroraShift 12s ease-in-out infinite alternate;
+        radial-gradient(circle at 18% 22%, rgba(255, 77, 141, 0.38) 0%, transparent 42%),
+        radial-gradient(circle at 82% 78%, rgba(157, 78, 221, 0.42) 0%, transparent 48%),
+        radial-gradient(circle at 50% 45%, rgba(247, 37, 133, 0.22) 0%, transparent 52%),
+        linear-gradient(135deg, #090212 0%, #1c0628 45%, #350c3d 100%);
+    filter: blur(45px);
+    animation: auroraShift 14s ease-in-out infinite alternate;
 }
 
 @keyframes auroraShift {
     0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.08) rotate(2deg); }
-    100% { transform: scale(1) rotate(-1deg); }
+    50% { transform: scale(1.09) rotate(2deg); }
+    100% { transform: scale(1) rotate(-1.5deg); }
 }
 
-/* Canvas for Confetti & Particle Bursts */
+/* Particle Canvas */
 #fx-canvas {
     position: fixed;
     top: 0;
@@ -76,7 +76,7 @@ body {
     z-index: 10;
 }
 
-/* Glassmorphism Main Card */
+/* Main Card Wrapper */
 .card-wrapper {
     position: relative;
     z-index: 5;
@@ -88,32 +88,25 @@ body {
 .card {
     position: relative;
     width: 100%;
-    padding: 38px 28px;
+    padding: 34px 26px;
     text-align: center;
-    border-radius: 30px;
-    background: var(--glass-bg);
+    border-radius: 32px;
+    background: var(--glass-card);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 25px 60px rgba(0, 0, 0, 0.55),
         inset 0 1px 1px rgba(255, 255, 255, 0.4),
-        0 0 40px rgba(255, 77, 141, 0.15);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    animation: cardEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        0 0 45px rgba(255, 77, 141, 0.18);
+    transition: all 0.4s ease;
+    animation: entrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.card:hover {
-    box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.6),
-        inset 0 1px 1px rgba(255, 255, 255, 0.5),
-        0 0 50px rgba(255, 77, 141, 0.25);
-}
-
-@keyframes cardEntrance {
+@keyframes entrance {
     0% {
         opacity: 0;
-        transform: translateY(45px) scale(0.94);
+        transform: translateY(40px) scale(0.95);
     }
     100% {
         opacity: 1;
@@ -121,31 +114,54 @@ body {
     }
 }
 
-/* Pulsating Heart / Envelope Glow */
+/* Progress Step Tracker */
+.steps-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.step-dot.active {
+    width: 30px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #ff4d8d, #f72585);
+    box-shadow: 0 0 12px rgba(255, 77, 141, 0.7);
+}
+
+/* Heart Badge */
 .heart-badge {
     position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 82px;
-    height: 82px;
-    margin-bottom: 18px;
-    background: radial-gradient(circle, rgba(255, 120, 173, 0.25) 0%, rgba(255, 255, 255, 0.03) 70%);
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+    background: radial-gradient(circle, rgba(255, 120, 173, 0.25) 0%, rgba(255, 255, 255, 0.04) 72%);
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.25);
     cursor: pointer;
-    box-shadow: 0 0 25px rgba(255, 77, 141, 0.35);
-    animation: heartPulse 2.4s infinite ease-in-out;
+    box-shadow: 0 0 25px rgba(255, 77, 141, 0.4);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .heart-badge:hover {
-    transform: scale(1.15) rotate(-6deg);
+    transform: scale(1.12) rotate(-5deg);
 }
 
 .heart-badge span {
-    font-size: 42px;
-    filter: drop-shadow(0 4px 12px rgba(255, 51, 102, 0.6));
+    font-size: 40px;
+    filter: drop-shadow(0 4px 10px rgba(255, 51, 102, 0.6));
     animation: heartbeat 1.3s infinite ease-in-out;
 }
 
@@ -153,50 +169,81 @@ body {
     0%, 100% { transform: scale(1); }
     15% { transform: scale(1.18); }
     30% { transform: scale(1); }
-    45% { transform: scale(1.12); }
+    45% { transform: scale(1.1); }
 }
 
-@keyframes heartPulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(255, 77, 141, 0.3); }
-    50% { box-shadow: 0 0 35px rgba(255, 77, 141, 0.6), 0 0 12px rgba(157, 78, 221, 0.4); }
+/* Step Content Transitions */
+.step-container {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-/* Typography */
-h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #ffffff 30%, #ffc5df 70%, #ff9ebb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 14px;
+.step-container.fade-out {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.97);
+}
+
+.step-container.fade-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: stepEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes stepEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .subtitle {
     font-size: 13px;
-    letter-spacing: 2px;
+    letter-spacing: 2.2px;
     text-transform: uppercase;
-    color: var(--accent-gold);
-    margin-bottom: 12px;
-    opacity: 0.85;
+    color: var(--warm-gold);
+    margin-bottom: 10px;
     font-weight: 500;
 }
 
-.main-text {
-    font-size: 15.5px;
-    line-height: 1.85;
-    color: #f7e6ef;
-    font-weight: 300;
-    margin-bottom: 8px;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    background: linear-gradient(135deg, #ffffff 30%, #ffc5df 70%, #ff9ebb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    line-height: 1.25;
 }
 
-/* Interactive Action Button */
-.btn-reveal {
+.message-text {
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: #fcecf4;
+    font-weight: 300;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.highlight {
+    color: #ffe066;
+    font-weight: 500;
+}
+
+/* Primary Action Buttons */
+.btn-primary {
     position: relative;
     margin-top: 24px;
-    padding: 15px 32px;
+    padding: 14px 30px;
     border: none;
     border-radius: 50px;
     font-family: 'Outfit', sans-serif;
@@ -208,23 +255,23 @@ h1 {
     background: linear-gradient(135deg, #ff4d8d, #f72585, #7209b7);
     background-size: 200% 200%;
     box-shadow: 0 8px 25px rgba(247, 37, 133, 0.45);
-    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 
-.btn-reveal:hover {
-    transform: translateY(-3px) scale(1.03);
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
     box-shadow: 0 12px 30px rgba(247, 37, 133, 0.65);
     background-position: right center;
 }
 
-.btn-reveal:active {
+.btn-primary:active {
     transform: translateY(1px) scale(0.98);
 }
 
-.btn-reveal::before {
+.btn-primary::before {
     content: '';
     position: absolute;
     top: 0;
@@ -241,68 +288,73 @@ h1 {
     100% { left: 160%; }
 }
 
-/* Hidden Letter Section */
-#message-box {
-    display: none;
-    margin-top: 26px;
-    padding-top: 22px;
-    border-top: 1px dashed rgba(255, 255, 255, 0.22);
-    text-align: left;
-    position: relative;
-    max-height: 380px;
-    overflow-y: auto;
-    padding-right: 6px;
-}
-
-/* Subtle Scrollbar */
-#message-box::-webkit-scrollbar {
-    width: 4px;
-}
-#message-box::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 4px;
-}
-
-.reveal-anim {
-    animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes fadeSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(22px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.letter-content {
-    font-size: 15px;
-    line-height: 1.85;
-    color: #fff0f6;
-    font-weight: 300;
-}
-
-.highlight {
-    color: #ffe066;
-    font-weight: 500;
-}
-
-.signature {
+/* Choice Buttons on Final Step */
+.choice-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
     margin-top: 22px;
+}
+
+.btn-choice {
+    padding: 13px 22px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: white;
+}
+
+.btn-choice.accept {
+    background: linear-gradient(135deg, rgba(85, 166, 48, 0.85), rgba(43, 147, 72, 0.85));
+    box-shadow: 0 5px 20px rgba(43, 147, 72, 0.35);
+}
+
+.btn-choice.accept:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(43, 147, 72, 0.6);
+}
+
+.btn-choice.time {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+}
+
+.btn-choice.time:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
+}
+
+/* Signature & Final Reactions */
+.signature {
+    margin-top: 20px;
     font-family: 'Dancing Script', cursive;
     font-size: 26px;
     color: #ffb3d1;
-    text-align: right;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 6px;
 }
 
-/* Floating background hearts/sparkles */
+.reaction-card {
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    margin-top: 20px;
+    animation: stepEnter 0.6s ease forwards;
+}
+
+/* Floating Elements */
 .floating-item {
     position: fixed;
     bottom: -40px;
@@ -313,41 +365,24 @@ h1 {
 }
 
 @keyframes floatUpward {
-    0% {
-        transform: translateY(0) scale(0.6) rotate(0deg);
-        opacity: 0;
-    }
-    15% {
-        opacity: 0.8;
-    }
-    85% {
-        opacity: 0.7;
-    }
-    100% {
-        transform: translateY(-115vh) scale(1.1) rotate(360deg);
-        opacity: 0;
-    }
+    0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
+    15% { opacity: 0.8; }
+    85% { opacity: 0.7; }
+    100% { transform: translateY(-115vh) scale(1.1) rotate(360deg); opacity: 0; }
 }
 
-/* Ambient Click Ripple Effect */
-.click-heart {
+/* Ambient Click Pop */
+.click-pop {
     position: fixed;
     pointer-events: none;
     z-index: 20;
-    font-size: 20px;
     transform: translate(-50%, -50%) scale(0);
-    animation: clickPop 0.8s ease-out forwards;
+    animation: popAnim 0.75s ease-out forwards;
 }
 
-@keyframes clickPop {
-    0% {
-        transform: translate(-50%, -50%) scale(0.5);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -90px) scale(1.5);
-        opacity: 0;
-    }
+@keyframes popAnim {
+    0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+    100% { transform: translate(-50%, -80px) scale(1.4); opacity: 0; }
 }
 </style>
 </head>
@@ -364,44 +399,22 @@ h1 {
 <div class="card-wrapper">
     <div class="card" id="mainCard">
         
-        <!-- Interactive Heart Badge -->
-        <div class="heart-badge" onclick="popHeart(event)">
-            <span>❤️</span>
+        <!-- Step Progress Dots -->
+        <div class="steps-progress">
+            <div class="step-dot active" id="dot-1"></div>
+            <div class="step-dot" id="dot-2"></div>
+            <div class="step-dot" id="dot-3"></div>
+            <div class="step-dot" id="dot-4"></div>
         </div>
 
-        <div class="subtitle">Dil Se Ek Chhoti Si Baat</div>
-        <h1>I'm Truly Sorry!</h1>
+        <!-- Interactive Heart Badge -->
+        <div class="heart-badge" onclick="popHeart(event)">
+            <span id="badge-icon">❤️</span>
+        </div>
 
-        <p class="main-text">
-            Kabhi-kabhi hum apni feelings mein
-            kuch aisa keh dete hain jo nahi kehna chahiye...
-            <br><br>
-            Agar meri kisi bhi baat se tumhara dil dukha ho,
-            toh <span style="color: #ff9ebb; font-weight: 500;">dil se behad sorry</span>.
-        </p>
-
-        <!-- Reveal Button -->
-        <button class="btn-reveal" id="revealBtn" onclick="revealLetter(event)">
-            <span>Ek baar meri baat sunogi?</span>
-            <span style="font-size: 18px;">💌</span>
-        </button>
-
-        <!-- Hidden Letter -->
-        <div id="message-box">
-            <div class="letter-content">
-                Main tumhari friendship ki dil se bahut kadar karta hoon.
-                <br><br>
-                Tum mere liye sach mein <span class="highlight">bahut important</span> ho. 
-                Main kabhi nahi chahta ki meri kisi nadani ya baat ki wajah se humare beech koi doori ya awkwardness aaye.
-                <br><br>
-                Main tum par koi pressure nahi daalna chahta... Tumhari feelings, tumhari space aur tumhari khushi ki hamesha utni hi respect karta hoon.
-                <br><br>
-                Bas itni si wish hai ki hum pehle jaise normal aur muskuraate hue reh sakein. 🌸
-            </div>
-
-            <div class="signature">
-                Take care always <span style="font-size: 22px;">🕊️</span>
-            </div>
+        <!-- Dynamic Step Container -->
+        <div class="step-container fade-in" id="stepBox">
+            <!-- Dynamic Content Injected By JS -->
         </div>
 
     </div>
@@ -474,54 +487,162 @@ function animateParticles() {
 }
 animateParticles();
 
-/* ================= Reveal Action ================= */
-let hasRevealed = false;
+/* ================= Multi-Step Story Content ================= */
+let currentStep = 1;
 
-function revealLetter(event) {
-    const btn = document.getElementById("revealBtn");
-    const box = document.getElementById("message-box");
+const stepsData = {
+    1: {
+        badge: "❤️",
+        subtitle: "Dil Se Ek Chhoti Si Baat",
+        title: "I'm Really Sorry!",
+        text: `Kabhi-kabhi hum apni feelings mein kuch aisa keh dete hain jo nahi kehna chahiye...<br><br>
+               Agar meri kisi bhi baat se tumhara dil dukha ho ya bura laga ho, toh <span class="highlight">dil se behad sorry</span>.`,
+        btnText: "Ek baar meri baat sunogi? 💌",
+        action: () => nextStep()
+    },
+    2: {
+        badge: "✨",
+        subtitle: "Sach Yeh Hai Ki...",
+        title: "Tum Important Ho",
+        text: `Main sach mein tumhari aur tumhari dosti ki dil se bahut kadar karta hoon.<br><br>
+               Tum mere liye bohot maayne rakhti ho, aur main bilkul nahi chahta ki meri kisi bhi nadani se humare beech koi <span class="highlight">dooriyan ya awkwardness</span> aaye.`,
+        btnText: "Thoda aur suno 👉",
+        action: () => nextStep()
+    },
+    3: {
+        badge: "🌸",
+        subtitle: "Dil Ka Koi Dabaav Nahi",
+        title: "Space & Respect",
+        text: `Main tum par kisi bhi cheez ka pressure nahi daalna chahta...<br><br>
+               Tumhari feelings, tumhari space aur tumhari choice ki main hamesha utni hi <span class="highlight">dil se respect</span> karta hoon jitni pehle karta tha.`,
+        btnText: "Bas aakhri baat... 🤍",
+        action: () => nextStep()
+    },
+    4: {
+        badge: "🥺",
+        subtitle: "Bas Ek Chhoti Si Wish",
+        title: "Can We Be Normal?",
+        text: `Bas itni si dua hai ki hum pehle jaise normal ho sakein... Bina kisi gile-shikwe ke, ek pyari si smile ke sath. 🌸`,
+        isFinal: true
+    }
+};
 
-    // Particle burst originating from button position
-    const rect = btn.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    triggerBurst(centerX, centerY, 60);
+function renderStep(stepNumber) {
+    const data = stepsData[stepNumber];
+    const box = document.getElementById("stepBox");
+    const badge = document.getElementById("badge-icon");
 
-    if (!hasRevealed) {
-        box.style.display = "block";
-        box.classList.add("reveal-anim");
-        
-        btn.innerHTML = `<span>Thank you for reading</span> <span style="font-size: 18px;">🌸</span>`;
-        btn.style.background = "linear-gradient(135deg, #2b9348, #55a630)";
-        btn.style.boxShadow = "0 8px 25px rgba(85, 166, 48, 0.4)";
-        hasRevealed = true;
+    badge.innerText = data.badge;
 
-        // Smooth scroll if needed on smaller screens
+    // Update Progress Dots
+    for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i === stepNumber) {
+            dot.classList.add("active");
+        } else {
+            dot.classList.remove("active");
+        }
+    }
+
+    if (data.isFinal) {
+        box.innerHTML = `
+            <div class="subtitle">${data.subtitle}</div>
+            <h1>${data.title}</h1>
+            <p class="message-text">${data.text}</p>
+            <div class="choice-container" id="choicesBox">
+                <button class="btn-choice accept" onclick="chooseResponse('accepted', event)">
+                    <span>Sab theek hai, maaf kiya</span>
+                    <span style="font-size: 18px;">🫂❤️</span>
+                </button>
+                <button class="btn-choice time" onclick="chooseResponse('time', event)">
+                    <span>Thoda waqt chahiye</span>
+                    <span style="font-size: 18px;">⏳🌸</span>
+                </button>
+            </div>
+            <div class="signature">Take care always 🕊️</div>
+        `;
+    } else {
+        box.innerHTML = `
+            <div class="subtitle">${data.subtitle}</div>
+            <h1>${data.title}</h1>
+            <p class="message-text">${data.text}</p>
+            <button class="btn-primary" onclick="handleNextClick(event)">
+                <span>${data.btnText}</span>
+            </button>
+        `;
+    }
+}
+
+function handleNextClick(event) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 45);
+    nextStep();
+}
+
+function nextStep() {
+    if (currentStep < 4) {
+        const box = document.getElementById("stepBox");
+        box.classList.remove("fade-in");
+        box.classList.add("fade-out");
+
         setTimeout(() => {
-            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 150);
+            currentStep++;
+            renderStep(currentStep);
+            box.classList.remove("fade-out");
+            box.classList.add("fade-in");
+        }, 320);
+    }
+}
+
+function chooseResponse(type, event) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const box = document.getElementById("choicesBox");
+
+    if (type === 'accepted') {
+        triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 85);
+        document.getElementById("badge-icon").innerText = "🥰";
+        box.outerHTML = `
+            <div class="reaction-card">
+                <p style="font-size: 16px; color: #ffd4e8; font-weight: 500;">
+                    Thank you so much! Sach mein dil se bohot shukriya... Tumhari yeh muskaan mere liye sabse zaroori hai. 🫂💖
+                </p>
+            </div>
+        `;
+    } else {
+        triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
+        document.getElementById("badge-icon").innerText = "🕊️";
+        box.outerHTML = `
+            <div class="reaction-card">
+                <p style="font-size: 15.5px; color: #ffd6a5; font-weight: 400; line-height: 1.7;">
+                    Poora waqt lo... Bilkul koi jaldi nahi hai. Tumhari comfort aur peace of mind mere liye sabse pehle hai. 🤍🌸
+                </p>
+            </div>
+        `;
     }
 }
 
 function popHeart(e) {
     const rect = e.currentTarget.getBoundingClientRect();
-    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 35);
+    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
 }
 
-/* ================= Ambient Tap / Click Ripple ================= */
+// Initial render
+renderStep(1);
+
+/* ================= Ambient Click Bubbles ================= */
 window.addEventListener('click', (e) => {
-    // Avoid triggering right on the button click to prevent clutter
-    if (e.target.closest('#revealBtn') || e.target.closest('.heart-badge')) return;
+    if (e.target.closest('button') || e.target.closest('.heart-badge')) return;
 
-    const heart = document.createElement('div');
-    heart.className = 'click-heart';
+    const pop = document.createElement('div');
+    pop.className = 'click-pop';
     const icons = ['💗', '✨', '🌸', '💫'];
-    heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-    heart.style.left = e.clientX + 'px';
-    heart.style.top = e.clientY + 'px';
+    pop.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+    pop.style.left = e.clientX + 'px';
+    pop.style.top = e.clientY + 'px';
+    pop.style.fontSize = (18 + Math.random() * 10) + 'px';
 
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 800);
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 750);
 });
 
 /* ================= Continuous Floating Background Elements ================= */
@@ -546,7 +667,7 @@ function createFloatingElement() {
     }, duration * 1000);
 }
 
-setInterval(createFloatingElement, 450);
+setInterval(createFloatingElement, 500);
 </script>
 
 </body>
