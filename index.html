@@ -2,13 +2,13 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Little Sincere Sorry ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sirf Tumhare Liye Ek Paighaam 💌</title>
 
-<!-- Google Fonts -->
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -19,10 +19,10 @@
 }
 
 :root {
-    --primary-pink: #ff4d8d;
-    --accent-purple: #9d4edd;
-    --warm-gold: #ffd6a5;
-    --glass-card: rgba(255, 255, 255, 0.08);
+    --primary-pink: #ff3377;
+    --accent-gold: #ffd166;
+    --soft-glow: rgba(255, 51, 119, 0.45);
+    --glass-bg: rgba(25, 12, 38, 0.65);
     --glass-border: rgba(255, 255, 255, 0.22);
 }
 
@@ -32,357 +32,528 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Outfit', sans-serif;
-    background: #0d0417;
+    background: #08020e;
     color: #ffffff;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 24px 16px;
-    position: relative;
+    padding: 20px 14px 40px;
+    perspective: 1200px;
     user-select: none;
+    position: relative;
 }
 
-/* Ambient Moving Aurora Mesh Glow */
-.aurora-bg {
+/* Background Canvas */
+#bg-canvas, #fx-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+    pointer-events: none;
+}
+#bg-canvas { z-index: 1; }
+#fx-canvas { z-index: 50; }
+
+/* Aurora Ambient Gradient Layer */
+.aurora-bg {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 15% 20%, rgba(138, 43, 226, 0.35) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(255, 51, 119, 0.35) 0%, transparent 48%),
+                radial-gradient(circle at 50% 50%, rgba(255, 209, 102, 0.12) 0%, transparent 60%);
+    filter: blur(55px);
     z-index: 0;
     pointer-events: none;
-    background: 
-        radial-gradient(circle at 18% 22%, rgba(255, 77, 141, 0.38) 0%, transparent 42%),
-        radial-gradient(circle at 82% 78%, rgba(157, 78, 221, 0.42) 0%, transparent 48%),
-        radial-gradient(circle at 50% 45%, rgba(247, 37, 133, 0.22) 0%, transparent 52%),
-        linear-gradient(135deg, #090212 0%, #1c0628 45%, #350c3d 100%);
-    filter: blur(45px);
-    animation: auroraShift 14s ease-in-out infinite alternate;
+    animation: auroraDrift 14s ease-in-out infinite alternate;
 }
 
-@keyframes auroraShift {
+@keyframes auroraDrift {
     0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.09) rotate(2deg); }
-    100% { transform: scale(1) rotate(-1.5deg); }
+    100% { transform: scale(1.12) rotate(6deg); }
 }
 
-/* Particle Canvas */
-#fx-canvas {
+/* Audio Toggle Button */
+.audio-toggle {
     position: fixed;
-    top: 0;
+    top: 18px;
+    right: 18px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffd166;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+.audio-toggle:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+}
+.audio-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00ffaa;
+    box-shadow: 0 0 8px #00ffaa;
+    transition: 0.3s;
+}
+.audio-indicator.muted {
+    background: #888;
+    box-shadow: none;
+}
+
+/* Header Text Banner */
+.top-header {
+    text-align: center;
+    position: relative;
+    z-index: 20;
+    margin-bottom: 24px;
+    animation: headerFade 1s ease forwards;
+}
+@keyframes headerFade {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.top-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 18px;
+    border-radius: 30px;
+    background: rgba(255, 209, 102, 0.12);
+    border: 1px solid rgba(255, 209, 102, 0.35);
+    backdrop-filter: blur(8px);
+    color: #ffd166;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    box-shadow: 0 0 20px rgba(255, 209, 102, 0.2);
+}
+.top-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #ffccd9;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* ================= 3D ENVELOPE STAGE ================= */
+.envelope-stage {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.envelope-stage.opened-stage {
+    opacity: 0;
+    transform: scale(0.8) translateY(-40px);
+    pointer-events: none;
+    position: absolute;
+}
+
+.envelope-container {
+    width: 320px;
+    height: 220px;
+    position: relative;
+    background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(255, 51, 119, 0.25);
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.envelope-container:hover {
+    transform: translateY(-6px) rotateX(4deg);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.75), 0 0 45px rgba(255, 51, 119, 0.4);
+}
+
+.envelope-pocket {
+    position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 10;
-}
-
-/* Main Card Wrapper */
-.card-wrapper {
-    position: relative;
+    clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(25, 8, 30, 0.85));
+    border-radius: 0 0 18px 18px;
     z-index: 5;
+    pointer-events: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 440px;
-    margin: auto;
+    height: 120px;
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(85, 27, 72, 0.9));
+    transform-origin: top center;
+    transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 6;
 }
 
-.card {
-    position: relative;
-    width: 100%;
-    padding: 34px 26px;
-    text-align: center;
-    border-radius: 32px;
-    background: var(--glass-card);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.55),
-        inset 0 1px 1px rgba(255, 255, 255, 0.4),
-        0 0 45px rgba(255, 77, 141, 0.18);
-    transition: all 0.4s ease;
-    animation: entrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.envelope-container.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
 }
 
-@keyframes entrance {
-    0% {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Progress Step Tracker */
-.steps-progress {
+/* Gold Wax Seal */
+.wax-seal {
+    position: absolute;
+    top: 96px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffea85 0%, #d49a17 45%, #7a5405 100%);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 209, 102, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.8), inset 0 -3px 6px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 22px;
+    z-index: 8;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: sealPulse 2.4s infinite ease-in-out;
+}
+.wax-seal:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 10px 30px rgba(255, 209, 102, 0.8), 0 0 35px rgba(255, 51, 119, 0.6);
+}
+@keyframes sealPulse {
+    0%, 100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 209, 102, 0.5); }
+    50% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 32px rgba(255, 209, 102, 0.85); }
 }
 
-.step-dot {
+.wax-seal-inner {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 248, 220, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    color: #fff8dc;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.envelope-prompt {
+    margin-top: 24px;
+    font-size: 14.5px;
+    color: #ffd6e7;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 22px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    animation: bouncePrompt 2s infinite;
+}
+@keyframes bouncePrompt {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* ================= MAIN LETTER CARD STAGE ================= */
+.letter-stage {
+    display: none;
+    position: relative;
+    z-index: 25;
+    width: 100%;
+    max-width: 440px;
+    opacity: 0;
+    transform: translateY(50px) scale(0.92);
+    transition: all 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.letter-stage.visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.main-glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 34px 26px;
+    backdrop-filter: blur(26px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(255, 51, 119, 0.22);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.card-shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.07) 50%, transparent 60%);
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+/* Top Progress Tracker (5 Chapters) */
+.chapter-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+.chapter-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.22);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.4s ease;
 }
-
-.step-dot.active {
-    width: 30px;
+.chapter-dot.active {
+    width: 32px;
     border-radius: 12px;
-    background: linear-gradient(90deg, #ff4d8d, #f72585);
-    box-shadow: 0 0 12px rgba(255, 77, 141, 0.7);
+    background: linear-gradient(90deg, #ff3377, #ffd166);
+    box-shadow: 0 0 14px rgba(255, 51, 119, 0.7);
 }
 
-/* Heart Badge */
-.heart-badge {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 80px;
-    margin-bottom: 16px;
-    background: radial-gradient(circle, rgba(255, 120, 173, 0.25) 0%, rgba(255, 255, 255, 0.04) 72%);
+/* Badge Icon Container */
+.badge-halo {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 18px;
     border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 51, 119, 0.22) 0%, rgba(255, 255, 255, 0.04) 75%);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    box-shadow: 0 0 25px rgba(255, 77, 141, 0.4);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.heart-badge:hover {
-    transform: scale(1.12) rotate(-5deg);
-}
-
-.heart-badge span {
-    font-size: 40px;
-    filter: drop-shadow(0 4px 10px rgba(255, 51, 102, 0.6));
-    animation: heartbeat 1.3s infinite ease-in-out;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.18); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.1); }
-}
-
-/* Step Content Transitions */
-.step-container {
-    min-height: 250px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    box-shadow: 0 0 26px var(--soft-glow);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.badge-halo:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+.badge-icon {
+    font-size: 38px;
+    filter: drop-shadow(0 3px 10px rgba(255, 51, 119, 0.6));
+    animation: iconFloat 2.6s ease-in-out infinite alternate;
+}
+@keyframes iconFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
 }
 
-.step-container.fade-out {
-    opacity: 0;
-    transform: translateY(-16px) scale(0.97);
-}
-
-.step-container.fade-in {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    animation: stepEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes stepEnter {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.97);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.subtitle {
-    font-size: 13px;
-    letter-spacing: 2.2px;
+/* Chapter Subtitle & Title */
+.chap-tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--warm-gold);
-    margin-bottom: 10px;
-    font-weight: 500;
+    color: #ffd166;
+    margin-bottom: 8px;
+    display: inline-block;
 }
-
-h1 {
+.chap-title {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 700;
-    letter-spacing: -0.4px;
-    background: linear-gradient(135deg, #ffffff 30%, #ffc5df 70%, #ff9ebb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 15px;
-    line-height: 1.25;
+    color: #ffffff;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.message-text {
+/* Text Container with Typewriter Animation */
+.content-area {
+    min-height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+.letter-paragraph {
     font-size: 15.5px;
     line-height: 1.85;
-    color: #fcecf4;
+    color: #f7e6ef;
     font-weight: 300;
-    margin-bottom: 8px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    text-align: center;
 }
-
-.highlight {
-    color: #ffe066;
-    font-weight: 500;
+.letter-paragraph strong {
+    color: #ff9bbb;
+    font-weight: 600;
 }
+.type-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 16px;
+    background: #ff3377;
+    margin-left: 3px;
+    vertical-align: middle;
+    animation: blink 0.8s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
 
-/* Primary Action Buttons */
+/* Buttons */
 .btn-primary {
-    position: relative;
-    margin-top: 24px;
-    padding: 14px 30px;
+    width: 100%;
+    padding: 14px 24px;
     border: none;
-    border-radius: 50px;
+    border-radius: 35px;
+    background: linear-gradient(135deg, #ff3377 0%, #e01e5a 50%, #9b1d5c 100%);
+    color: #ffffff;
     font-family: 'Outfit', sans-serif;
     font-size: 15.5px;
     font-weight: 600;
-    color: #ffffff;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ff4d8d, #f72585, #7209b7);
-    background-size: 200% 200%;
-    box-shadow: 0 8px 25px rgba(247, 37, 133, 0.45);
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    display: inline-flex;
+    box-shadow: 0 8px 25px rgba(255, 51, 119, 0.45);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 8px;
 }
-
 .btn-primary:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(247, 37, 133, 0.65);
-    background-position: right center;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(255, 51, 119, 0.65);
 }
-
 .btn-primary:active {
-    transform: translateY(1px) scale(0.98);
+    transform: scale(0.98);
 }
 
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transform: skewX(-25deg);
-    animation: shine 4s infinite;
+/* Gussa Meter (Chapter 4) */
+.meter-box {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 16px 14px;
+    margin: 16px 0;
+}
+.meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #ffd6e7;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.custom-range {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #00ffaa, #ffd166, #ff3377);
+    outline: none;
+    cursor: pointer;
+}
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    border: 3px solid #ff3377;
+    transition: transform 0.15s;
+}
+.custom-range::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+.gussa-status {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffd166;
+    margin-top: 10px;
 }
 
-@keyframes shine {
-    0%, 75% { left: -100%; }
-    100% { left: 160%; }
-}
-
-/* Choice Buttons on Final Step */
-.choice-container {
+/* Playful Resolution Buttons (Chapter 4) */
+.playful-actions {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-top: 14px;
+    min-height: 110px;
+}
+.btn-forgive {
     width: 100%;
-    margin-top: 22px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #00b074, #00875a);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 176, 116, 0.4);
+    transition: all 0.3s;
+    z-index: 2;
+}
+.btn-forgive:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 176, 116, 0.6);
 }
 
-.btn-choice {
-    padding: 13px 22px;
-    border-radius: 40px;
+.btn-runaway {
+    width: 100%;
+    padding: 12px 20px;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    font-family: 'Outfit', sans-serif;
-    font-size: 14.5px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffb3c6;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: white;
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+    position: relative;
 }
 
-.btn-choice.accept {
-    background: linear-gradient(135deg, rgba(85, 166, 48, 0.85), rgba(43, 147, 72, 0.85));
-    box-shadow: 0 5px 20px rgba(43, 147, 72, 0.35);
-}
-
-.btn-choice.accept:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 25px rgba(43, 147, 72, 0.6);
-}
-
-.btn-choice.time {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(10px);
-}
-
-.btn-choice.time:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.02);
-}
-
-/* Signature & Final Reactions */
-.signature {
+/* Handwritten Signature */
+.signature-box {
     margin-top: 20px;
     font-family: 'Dancing Script', cursive;
-    font-size: 26px;
-    color: #ffb3d1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    font-size: 24px;
+    color: #ffccd9;
+    text-shadow: 0 2px 10px rgba(255, 51, 119, 0.5);
 }
 
-.reaction-card {
-    padding: 15px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px dashed rgba(255, 255, 255, 0.25);
-    margin-top: 20px;
-    animation: stepEnter 0.6s ease forwards;
-}
-
-/* Floating Elements */
-.floating-item {
-    position: fixed;
-    bottom: -40px;
-    pointer-events: none;
-    z-index: 2;
-    animation: floatUpward linear forwards;
-    filter: drop-shadow(0 2px 6px rgba(255, 77, 141, 0.4));
-}
-
-@keyframes floatUpward {
-    0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
-    15% { opacity: 0.8; }
-    85% { opacity: 0.7; }
-    100% { transform: translateY(-115vh) scale(1.1) rotate(360deg); opacity: 0; }
-}
-
-/* Ambient Click Pop */
-.click-pop {
+/* Micro Click Sparkle */
+.click-heart {
     position: fixed;
     pointer-events: none;
-    z-index: 20;
-    transform: translate(-50%, -50%) scale(0);
-    animation: popAnim 0.75s ease-out forwards;
+    z-index: 1000;
+    animation: clickPop 0.8s ease-out forwards;
+    transform: translate(-50%, -50%);
 }
-
-@keyframes popAnim {
-    0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
-    100% { transform: translate(-50%, -80px) scale(1.4); opacity: 0; }
+@keyframes clickPop {
+    0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; }
+    100% { transform: translate(-50%, -100px) scale(1.4) rotate(25deg); opacity: 0; }
 }
 </style>
 </head>
@@ -392,46 +563,216 @@ h1 {
 <!-- Moving Aurora Glow Layer -->
 <div class="aurora-bg"></div>
 
-<!-- Confetti Canvas -->
+<!-- Background Constellation Stars -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- Confetti & Celebration Layer -->
 <canvas id="fx-canvas"></canvas>
 
-<!-- Card Container -->
-<div class="card-wrapper">
-    <div class="card" id="mainCard">
-        
-        <!-- Step Progress Dots -->
-        <div class="steps-progress">
-            <div class="step-dot active" id="dot-1"></div>
-            <div class="step-dot" id="dot-2"></div>
-            <div class="step-dot" id="dot-3"></div>
-            <div class="step-dot" id="dot-4"></div>
+<!-- Top Audio Toggle -->
+<div class="audio-toggle" id="audioBtn" onclick="toggleAudio()">
+    <div class="audio-indicator" id="audioDot"></div>
+    <span id="audioText">Melody: ON</span>
+    <span>🎵</span>
+</div>
+
+<!-- ================= STAGE 1: 3D SEALED ENVELOPE ================= -->
+<div class="envelope-stage" id="envelopeStage">
+    
+    <div class="top-header">
+        <div class="top-pill">✨ Ek Chhoti Si Baat ✨</div>
+        <p class="top-quote">"Bas 2 minute nikaal kar meri baat sun lena..." 🕊️</p>
+    </div>
+
+    <div class="envelope-container" id="envelopeWrapper" onclick="openEnvelope(event)">
+        <!-- Envelope Flap -->
+        <div class="envelope-flap" id="envelopeFlap"></div>
+
+        <!-- Gold Wax Seal -->
+        <div class="wax-seal" id="waxSeal">
+            <div class="wax-seal-inner">❤️</div>
         </div>
 
-        <!-- Interactive Heart Badge -->
-        <div class="heart-badge" onclick="popHeart(event)">
-            <span id="badge-icon">❤️</span>
+        <!-- Envelope Pocket -->
+        <div class="envelope-pocket"></div>
+    </div>
+
+    <div class="envelope-prompt">
+        Tap the wax seal to open 💌
+    </div>
+</div>
+
+<!-- ================= STAGE 2: MULTI-STEP LETTER CARD ================= -->
+<div class="letter-stage" id="letterStage">
+    <div class="main-glass-card">
+        <div class="card-shine"></div>
+
+        <!-- 5-Chapter Dots Tracker -->
+        <div class="chapter-nav">
+            <div class="chapter-dot active" id="dot-1"></div>
+            <div class="chapter-dot" id="dot-2"></div>
+            <div class="chapter-dot" id="dot-3"></div>
+            <div class="chapter-dot" id="dot-4"></div>
+            <div class="chapter-dot" id="dot-5"></div>
         </div>
 
-        <!-- Dynamic Step Container -->
-        <div class="step-container fade-in" id="stepBox">
-            <!-- Dynamic Content Injected By JS -->
+        <!-- Glowing Badge -->
+        <div class="badge-halo" onclick="handleBadgeTap(event)">
+            <span class="badge-icon" id="badgeEmoji">💌</span>
         </div>
 
+        <!-- Chapter Header -->
+        <span class="chap-tag" id="chapTag">Chapter 1 / 5</span>
+        <h2 class="chap-title" id="chapTitle">Really Sorry!</h2>
+
+        <!-- Interactive Typing Content Area -->
+        <div class="content-area">
+            <p class="letter-paragraph" id="letterText"></p>
+        </div>
+
+        <!-- Action / Interactive Area -->
+        <div id="interactiveArea">
+            <button class="btn-primary" id="nextBtn" onclick="nextChapter(event)">
+                <span>Ek baar meri baat sunogi? 🌸</span>
+            </button>
+        </div>
+
+        <!-- Signature -->
+        <div class="signature-box" id="signBox">
+            Take care 🤝
+        </div>
     </div>
 </div>
 
 <script>
-/* ================= Canvas Particle Explosion Effect ================= */
-const canvas = document.getElementById('fx-canvas');
-const ctx = canvas.getContext('2d');
+/* ================= 1. Web Audio API Soft Chimes ================= */
+let audioCtx = null;
+let soundEnabled = true;
+
+function getAudioContext() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+    return audioCtx;
+}
+
+function playHarpNote(freq, type = 'sine', duration = 0.9) {
+    if (!soundEnabled) return;
+    try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        gain.gain.setValueAtTime(0.09, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+    } catch(e) {}
+}
+
+function playHarpChord(notes = [523.25, 659.25, 783.99, 1046.50]) {
+    notes.forEach((freq, idx) => {
+        setTimeout(() => playHarpNote(freq, 'sine', 1.0), idx * 80);
+    });
+}
+
+function toggleAudio() {
+    soundEnabled = !soundEnabled;
+    const dot = document.getElementById("audioDot");
+    const text = document.getElementById("audioText");
+    if (soundEnabled) {
+        dot.classList.remove("muted");
+        text.innerText = "Melody: ON";
+        playHarpNote(659.25);
+    } else {
+        dot.classList.add("muted");
+        text.innerText = "Melody: OFF";
+    }
+}
+
+/* ================= 2. Background Constellation Canvas ================= */
+const bgCanvas = document.getElementById('bg-canvas');
+const bgCtx = bgCanvas.getContext('2d');
+let stars = [];
+
+function resizeBg() {
+    bgCanvas.width = window.innerWidth;
+    bgCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeBg);
+resizeBg();
+
+class Star {
+    constructor() {
+        this.x = Math.random() * bgCanvas.width;
+        this.y = Math.random() * bgCanvas.height;
+        this.size = Math.random() * 1.8 + 0.6;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.alpha = Math.random() * 0.7 + 0.3;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0) this.x = bgCanvas.width;
+        if (this.x > bgCanvas.width) this.x = 0;
+        if (this.y < 0) this.y = bgCanvas.height;
+        if (this.y > bgCanvas.height) this.y = 0;
+    }
+    draw() {
+        bgCtx.fillStyle = `rgba(255, 230, 240, ${this.alpha})`;
+        bgCtx.beginPath();
+        bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        bgCtx.fill();
+    }
+}
+
+for (let i = 0; i < 60; i++) stars.push(new Star());
+
+function animateBg() {
+    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].update();
+        stars[i].draw();
+        for (let j = i + 1; j < stars.length; j++) {
+            const dx = stars[i].x - stars[j].x;
+            const dy = stars[i].y - stars[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 90) {
+                bgCtx.strokeStyle = `rgba(255, 105, 180, ${0.12 * (1 - dist / 90)})`;
+                bgCtx.lineWidth = 0.6;
+                bgCtx.beginPath();
+                bgCtx.moveTo(stars[i].x, stars[i].y);
+                bgCtx.lineTo(stars[j].x, stars[j].y);
+                bgCtx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animateBg);
+}
+animateBg();
+
+/* ================= 3. FX Confetti & Particle Explosion ================= */
+const fxCanvas = document.getElementById('fx-canvas');
+const fxCtx = fxCanvas.getContext('2d');
 let particles = [];
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function resizeFx() {
+    fxCanvas.width = window.innerWidth;
+    fxCanvas.height = window.innerHeight;
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+window.addEventListener('resize', resizeFx);
+resizeFx();
 
 class ConfettiParticle {
     constructor(x, y) {
@@ -439,16 +780,15 @@ class ConfettiParticle {
         this.y = y;
         this.size = Math.random() * 8 + 4;
         this.speedX = (Math.random() - 0.5) * 12;
-        this.speedY = (Math.random() - 0.7) * 15;
-        this.gravity = 0.35;
-        this.colors = ['#ff4d8d', '#ff78ad', '#ffd6a5', '#9d4edd', '#ffffff', '#f72585'];
+        this.speedY = (Math.random() - 0.7) * 14;
+        this.gravity = 0.32;
+        this.colors = ['#ff3377', '#ffd166', '#a06cd5', '#ff78ad', '#ffffff', '#00ffaa'];
         this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
         this.rotation = Math.random() * 360;
-        this.rotSpeed = (Math.random() - 0.5) * 10;
+        this.rotSpeed = (Math.random() - 0.5) * 12;
         this.alpha = 1;
-        this.decay = Math.random() * 0.015 + 0.01;
+        this.decay = Math.random() * 0.018 + 0.012;
     }
-
     update() {
         this.speedY += this.gravity;
         this.x += this.speedX;
@@ -456,218 +796,295 @@ class ConfettiParticle {
         this.rotation += this.rotSpeed;
         this.alpha -= this.decay;
     }
-
     draw() {
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, this.alpha);
-        ctx.translate(this.x, this.y);
-        ctx.rotate((this.rotation * Math.PI) / 180);
-        ctx.fillStyle = this.color;
-        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
-        ctx.restore();
+        fxCtx.save();
+        fxCtx.globalAlpha = Math.max(0, this.alpha);
+        fxCtx.translate(this.x, this.y);
+        fxCtx.rotate((this.rotation * Math.PI) / 180);
+        fxCtx.fillStyle = this.color;
+        fxCtx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.7);
+        fxCtx.restore();
     }
 }
 
-function triggerBurst(x, y, count = 55) {
+function triggerBurst(x, y, count = 50) {
     for (let i = 0; i < count; i++) {
         particles.push(new ConfettiParticle(x, y));
     }
 }
 
 function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
     for (let i = particles.length - 1; i >= 0; i--) {
         particles[i].update();
         particles[i].draw();
-        if (particles[i].alpha <= 0) {
-            particles.splice(i, 1);
-        }
+        if (particles[i].alpha <= 0) particles.splice(i, 1);
     }
     requestAnimationFrame(animateParticles);
 }
 animateParticles();
 
-/* ================= Multi-Step Story Content ================= */
-let currentStep = 1;
+/* ================= 4. Envelope Opening Sequence ================= */
+let isEnvelopeOpened = false;
 
-const stepsData = {
+function openEnvelope(e) {
+    if (isEnvelopeOpened) return;
+    isEnvelopeOpened = true;
+
+    playHarpChord([440, 554.37, 659.25, 880]);
+    triggerBurst(window.innerWidth / 2, window.innerHeight / 2 - 20, 60);
+
+    const env = document.getElementById("envelopeWrapper");
+    env.classList.add("open");
+
+    setTimeout(() => {
+        const stage1 = document.getElementById("envelopeStage");
+        const stage2 = document.getElementById("letterStage");
+
+        stage1.classList.add("opened-stage");
+
+        setTimeout(() => {
+            stage1.style.display = "none";
+            stage2.classList.add("visible");
+            loadChapter(1);
+        }, 500);
+    }, 600);
+}
+
+/* ================= 5. Chapters Storyline & Typewriter Effect ================= */
+let currentChap = 1;
+let typeInterval = null;
+
+const storyData = {
     1: {
-        badge: "❤️",
-        subtitle: "Dil Se Ek Chhoti Si Baat",
-        title: "I'm Really Sorry!",
-        text: `Kabhi-kabhi hum apni feelings mein kuch aisa keh dete hain jo nahi kehna chahiye...<br><br>
-               Agar meri kisi bhi baat se tumhara dil dukha ho ya bura laga ho, toh <span class="highlight">dil se behad sorry</span>.`,
-        btnText: "Ek baar meri baat sunogi? 💌",
-        action: () => nextStep()
+        tag: "Chapter 1 / 5",
+        title: "Hey, I'm Really Sorry",
+        emoji: "🕊️",
+        text: "Bas seedhi si baat kehni thi... us din jo bhi hua ya jo maine bola, wo mujhe nahi kehna chahiye tha. Mujhe realize hua ki meri galti thi, isliye **dil se sorry kehna chahta hoon**. 🤍",
+        btn: "Aage suno... 👉"
     },
     2: {
-        badge: "✨",
-        subtitle: "Sach Yeh Hai Ki...",
-        title: "Tum Important Ho",
-        text: `Main sach mein tumhari aur tumhari dosti ki dil se bahut kadar karta hoon.<br><br>
-               Tum mere liye bohot maayne rakhti ho, aur main bilkul nahi chahta ki meri kisi bhi nadani se humare beech koi <span class="highlight">dooriyan ya awkwardness</span> aaye.`,
-        btnText: "Thoda aur suno 👉",
-        action: () => nextStep()
+        tag: "Chapter 2 / 5",
+        title: "Sab Normal Rakhna Hai",
+        emoji: "🤝",
+        text: "Main bilkul nahi chahta ki meri kisi faltu baat ya bewakoofi ki wajah se **humare beech koi awkwardness ya khamoshi aaye**. Tumhari baat aur company hamesha achhi lagti hai, isliye baat clear karna zaroori laga.",
+        btn: "Ek aur baat... 🌸"
     },
     3: {
-        badge: "🌸",
-        subtitle: "Dil Ka Koi Dabaav Nahi",
-        title: "Space & Respect",
-        text: `Main tum par kisi bhi cheez ka pressure nahi daalna chahta...<br><br>
-               Tumhari feelings, tumhari space aur tumhari choice ki main hamesha utni hi <span class="highlight">dil se respect</span> karta hoon jitni pehle karta tha.`,
-        btnText: "Bas aakhri baat... 🤍",
-        action: () => nextStep()
+        tag: "Chapter 3 / 5",
+        title: "No Pressure At All",
+        emoji: "✨",
+        text: "Main koi force ya pressure nahi daal raha. Tumhe jab bhi theek lage baat karna, tumhari space ki poori respect hai. Bas mera farz banta tha ki **apni galti accept karoon aur sorry bol doon**.",
+        btn: "Toh ab batao... 🥺"
     },
     4: {
-        badge: "🥺",
-        subtitle: "Bas Ek Chhoti Si Wish",
-        title: "Can We Be Normal?",
-        text: `Bas itni si dua hai ki hum pehle jaise normal ho sakein... Bina kisi gile-shikwe ke, ek pyari si smile ke sath. 🌸`,
-        isFinal: true
+        tag: "Chapter 4 / 5",
+        title: "Ab Kya Scene Hai?",
+        emoji: "👀",
+        isInteractiveGussa: true
+    },
+    5: {
+        tag: "Chapter 5 / 5",
+        title: "Thank You Yaar! 🤝✨",
+        emoji: "😊",
+        text: "Thank you baat samajhne ke liye aur sunne ke liye. Ab sab pehle jaisa bilkul normal rakhte hain!",
+        isEnd: true
     }
 };
 
-function renderStep(stepNumber) {
-    const data = stepsData[stepNumber];
-    const box = document.getElementById("stepBox");
-    const badge = document.getElementById("badge-icon");
-
-    badge.innerText = data.badge;
-
-    // Update Progress Dots
-    for (let i = 1; i <= 4; i++) {
-        const dot = document.getElementById(`dot-${i}`);
-        if (i === stepNumber) {
-            dot.classList.add("active");
+function typeWriter(elementId, text, speed = 25, callback) {
+    clearInterval(typeInterval);
+    const container = document.getElementById(elementId);
+    container.innerHTML = "";
+    
+    // Process markdown strong tags into html tokens
+    let tokens = [];
+    let isBold = false;
+    let parts = text.split("**");
+    
+    parts.forEach((p, index) => {
+        if (index % 2 === 1) {
+            tokens.push({ text: p, bold: true });
         } else {
-            dot.classList.remove("active");
+            tokens.push({ text: p, bold: false });
         }
+    });
+
+    let tokenIdx = 0;
+    let charIdx = 0;
+    let currentSpan = document.createElement(tokens[0].bold ? 'strong' : 'span');
+    container.appendChild(currentSpan);
+
+    const cursor = document.createElement('span');
+    cursor.className = 'type-cursor';
+    container.appendChild(cursor);
+
+    typeInterval = setInterval(() => {
+        if (tokenIdx >= tokens.length) {
+            clearInterval(typeInterval);
+            cursor.remove();
+            if (callback) callback();
+            return;
+        }
+
+        const currentToken = tokens[tokenIdx];
+        if (charIdx < currentToken.text.length) {
+            currentSpan.textContent += currentToken.text[charIdx];
+            charIdx++;
+            if (charIdx % 4 === 0) playHarpNote(700 + Math.random() * 200, 'sine', 0.15);
+        } else {
+            tokenIdx++;
+            charIdx = 0;
+            if (tokenIdx < tokens.length) {
+                currentSpan = document.createElement(tokens[tokenIdx].bold ? 'strong' : 'span');
+                container.insertBefore(currentSpan, cursor);
+            }
+        }
+    }, speed);
+}
+
+function loadChapter(num) {
+    currentChap = num;
+    const data = storyData[num];
+
+    // Update dots
+    for (let i = 1; i <= 5; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (dot) dot.classList.toggle('active', i === num);
     }
 
-    if (data.isFinal) {
-        box.innerHTML = `
-            <div class="subtitle">${data.subtitle}</div>
-            <h1>${data.title}</h1>
-            <p class="message-text">${data.text}</p>
-            <div class="choice-container" id="choicesBox">
-                <button class="btn-choice accept" onclick="chooseResponse('accepted', event)">
-                    <span>Sab theek hai, maaf kiya</span>
-                    <span style="font-size: 18px;">🫂❤️</span>
+    document.getElementById("chapTag").innerText = data.tag;
+    document.getElementById("chapTitle").innerText = data.title;
+    document.getElementById("badgeEmoji").innerText = data.emoji;
+
+    const actionBox = document.getElementById("interactiveArea");
+    const textBox = document.getElementById("letterText");
+
+    if (data.isInteractiveGussa) {
+        clearInterval(typeInterval);
+        textBox.innerHTML = "Ab sach-sach batao, thoda gussa thanda hua ya abhi bhi bacha hai?";
+        actionBox.innerHTML = `
+            <div class="meter-box">
+                <div class="meter-label">
+                    <span>Shant 🙂</span>
+                    <span>Thoda sa 😐</span>
+                    <span>Bohot Zyada 😤</span>
+                </div>
+                <input type="range" class="custom-range" id="gussaRange" min="0" max="100" value="50" oninput="updateGussaLabel(this.value)">
+                <div class="gussa-status" id="gussaText">Gussa Level: 50% (Chalo ab maaf bhi kardo yaar 🥺)</div>
+            </div>
+
+            <div class="playful-actions" id="actionContainer">
+                <button class="btn-forgive" onclick="forgiveAction(event)">
+                    <span>Chalo theek hai, maaf kiya 🤝❤️</span>
                 </button>
-                <button class="btn-choice time" onclick="chooseResponse('time', event)">
-                    <span>Thoda waqt chahiye</span>
-                    <span style="font-size: 18px;">⏳🌸</span>
+                <button class="btn-runaway" id="runawayBtn" onmouseover="dodgeRunaway()" onclick="dodgeRunaway(event)">
+                    <span>Nahi, abhi gussa hoon 😤</span>
                 </button>
             </div>
-            <div class="signature">Take care always 🕊️</div>
+        `;
+    } else if (data.isEnd) {
+        typeWriter("letterText", data.text, 22);
+        actionBox.innerHTML = `
+            <button class="btn-primary" style="margin-top: 15px;" onclick="sendLoveReply(event)">
+                <span>Send a Smile 😊👍</span>
+            </button>
         `;
     } else {
-        box.innerHTML = `
-            <div class="subtitle">${data.subtitle}</div>
-            <h1>${data.title}</h1>
-            <p class="message-text">${data.text}</p>
-            <button class="btn-primary" onclick="handleNextClick(event)">
-                <span>${data.btnText}</span>
+        typeWriter("letterText", data.text, 20);
+        actionBox.innerHTML = `
+            <button class="btn-primary" id="nextBtn" onclick="nextChapter(event)">
+                <span>${data.btn}</span>
             </button>
         `;
     }
 }
 
-function handleNextClick(event) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 45);
-    nextStep();
-}
-
-function nextStep() {
-    if (currentStep < 4) {
-        const box = document.getElementById("stepBox");
-        box.classList.remove("fade-in");
-        box.classList.add("fade-out");
-
-        setTimeout(() => {
-            currentStep++;
-            renderStep(currentStep);
-            box.classList.remove("fade-out");
-            box.classList.add("fade-in");
-        }, 320);
-    }
-}
-
-function chooseResponse(type, event) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const box = document.getElementById("choicesBox");
-
-    if (type === 'accepted') {
-        triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 85);
-        document.getElementById("badge-icon").innerText = "🥰";
-        box.outerHTML = `
-            <div class="reaction-card">
-                <p style="font-size: 16px; color: #ffd4e8; font-weight: 500;">
-                    Thank you so much! Sach mein dil se bohot shukriya... Tumhari yeh muskaan mere liye sabse zaroori hai. 🫂💖
-                </p>
-            </div>
-        `;
-    } else {
+function nextChapter(e) {
+    if (e) {
+        const rect = e.currentTarget.getBoundingClientRect();
         triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
-        document.getElementById("badge-icon").innerText = "🕊️";
-        box.outerHTML = `
-            <div class="reaction-card">
-                <p style="font-size: 15.5px; color: #ffd6a5; font-weight: 400; line-height: 1.7;">
-                    Poora waqt lo... Bilkul koi jaldi nahi hai. Tumhari comfort aur peace of mind mere liye sabse pehle hai. 🤍🌸
-                </p>
-            </div>
-        `;
+    }
+    playHarpChord([523.25, 659.25, 783.99]);
+
+    if (currentChap < 5) {
+        loadChapter(currentChap + 1);
     }
 }
 
-function popHeart(e) {
+function updateGussaLabel(val) {
+    const txt = document.getElementById("gussaText");
+    playHarpNote(400 + val * 4, 'sine', 0.2);
+    if (val < 20) {
+        txt.innerHTML = `Gussa Level: ${val}% — Bilkul chill scene hai! 🤝`;
+    } else if (val < 55) {
+        txt.innerHTML = `Gussa Level: ${val}% — Chalo ab maan bhi jao na yaar 🥺`;
+    } else if (val < 80) {
+        txt.innerHTML = `Gussa Level: ${val}% — Itna gussa accha nahi hota! 😅`;
+    } else {
+        txt.innerHTML = `Gussa Level: ${val}% — Arey itna gussa? Dil se sorry bola toh! 🙏`;
+    }
+}
+
+/* Playful runaway button logic */
+function dodgeRunaway(e) {
+    if (e) e.preventDefault();
+    const btn = document.getElementById("runawayBtn");
+    if (!btn) return;
+
+    playHarpNote(320, 'triangle', 0.2);
+
+    const x = (Math.random() - 0.5) * 200;
+    const y = (Math.random() - 0.5) * 120;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+
+    const playfulPhrases = [
+        "Arey click nahi hoga! 😜",
+        "Itna gussa mat karo yaar 🙈",
+        "Chhodo ab, maaf kardo! 🤝",
+        "Gussa khatam karo please! 😅"
+    ];
+    btn.querySelector("span").innerText = playfulPhrases[Math.floor(Math.random() * playfulPhrases.length)];
+}
+
+function forgiveAction(e) {
     const rect = e.currentTarget.getBoundingClientRect();
-    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
+    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 100);
+    playHarpChord([523.25, 659.25, 783.99, 1046.50, 1318.51]);
+    loadChapter(5);
 }
 
-// Initial render
-renderStep(1);
+function sendLoveReply(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 80);
+    playHarpChord([659.25, 830.61, 987.77, 1318.51]);
+    e.currentTarget.innerHTML = `<span>Smile Sent! 😊🤝</span>`;
+    e.currentTarget.style.pointerEvents = 'none';
+}
 
-/* ================= Ambient Click Bubbles ================= */
+function handleBadgeTap(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 35);
+    playHarpNote(880, 'sine', 0.4);
+}
+
+/* ================= 6. Interactive Click Floating Emojis ================= */
 window.addEventListener('click', (e) => {
-    if (e.target.closest('button') || e.target.closest('.heart-badge')) return;
+    if (e.target.closest('button') || e.target.closest('.wax-seal') || e.target.closest('.audio-toggle') || e.target.closest('.custom-range')) return;
 
-    const pop = document.createElement('div');
-    pop.className = 'click-pop';
-    const icons = ['💗', '✨', '🌸', '💫'];
-    pop.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-    pop.style.left = e.clientX + 'px';
-    pop.style.top = e.clientY + 'px';
-    pop.style.fontSize = (18 + Math.random() * 10) + 'px';
+    playHarpNote(587.33, 'sine', 0.25);
 
-    document.body.appendChild(pop);
-    setTimeout(() => pop.remove(), 750);
+    const heart = document.createElement('div');
+    heart.className = 'click-heart';
+    const emojis = ['💗', '✨', '🌸', '🕊️', '💌', '💫'];
+    heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    heart.style.left = e.clientX + 'px';
+    heart.style.top = e.clientY + 'px';
+    heart.style.fontSize = (20 + Math.random() * 14) + 'px';
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 800);
 });
-
-/* ================= Continuous Floating Background Elements ================= */
-function createFloatingElement() {
-    const el = document.createElement("div");
-    el.className = "floating-item";
-    const icons = ["❤️", "🌸", "✨", "💕", "🕊️", "💫"];
-    el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-
-    const startX = Math.random() * 100;
-    const duration = 6 + Math.random() * 6;
-    const fontSize = 16 + Math.random() * 14;
-
-    el.style.left = startX + "vw";
-    el.style.fontSize = fontSize + "px";
-    el.style.animationDuration = duration + "s";
-
-    document.body.appendChild(el);
-
-    setTimeout(() => {
-        el.remove();
-    }, duration * 1000);
-}
-
-setInterval(createFloatingElement, 500);
 </script>
 
 </body>
